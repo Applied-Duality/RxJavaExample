@@ -37,6 +37,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.HttpException;
 import rx.Observable;
@@ -188,8 +189,9 @@ public class MovieSearchFragment extends BaseFragment implements SearchView.OnQu
                 }
                 String encodedQuery = URLEncoder.encode(newText, "UTF-8");
                 Observable<SearchResults> observable = mOmdbApiObservables.getSearchResultsApi(encodedQuery, mFilterSelection);
-                searchResultsSubscription = observable.
-                        observeOn(AndroidSchedulers.mainThread())
+                searchResultsSubscription = observable
+                        .debounce(250, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(searchResultsSubscriber());
             } catch (UnsupportedEncodingException e) {
