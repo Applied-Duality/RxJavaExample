@@ -9,7 +9,7 @@ import retrofit.RxJavaCallAdapterFactory;
  */
 public class RetrofitHelper {
 
-    public static final String BASE_URL = "http://www.omdbapi.com";
+    private static final String BASE_URL = "http://www.omdbapi.com";
     private static RetrofitHelper mRetrofitHelper;
     private Retrofit mRetrofit;
 
